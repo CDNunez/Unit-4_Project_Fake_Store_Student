@@ -1,0 +1,16 @@
+/**---Universal Styles---*/
+h6 {
+    font-size: 14px;
+}
+
+.flex-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/**---Footer Styles---*/
+footer {
+    background-color: black;
+    color: white;
+}
