@@ -1,6 +1,24 @@
 /**---Universal Styles---*/
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+nav {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+}
+
 h6 {
     font-size: 14px;
+}
+
+#display {
+    text-align: center;
+    margin-top: 15px;
 }
 
 .flex-container {
@@ -13,4 +31,10 @@ h6 {
 footer {
     background-color: black;
     color: white;
+    width: 100vw;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    padding: 15px;
+    margin: 0 15PX;
 }
