@@ -105,9 +105,19 @@ function displayCards(api) {
     text.className = "card-text";
     text.textContent = obj.description;
     price.className = "card-text";
-    price.textContent = obj.price;
+    price.textContent = `$${obj.price.toFixed(2)}`;
     anchor.className = "btn btn-primary";
     anchor.textContent = "Add to Cart";
+    anchor.onclick = () => {
+       let item = {
+            id: obj.id,
+            title: obj.title,
+            cost: obj.price.toFixed(2),
+            quantity: 1,
+        }
+
+        submitToCart(item);
+    }
     //*Append
     body.appendChild(title);
 
