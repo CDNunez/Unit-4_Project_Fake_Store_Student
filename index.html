@@ -30,7 +30,82 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <form class="d-flex" role="cart">
-          <button class="btn btn-outline-success" type="submit">Cart</button>
+          <!-- Button trigger modal -->
+          <button
+            type="button"
+            class="btn btn-primary cart"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            Cart
+          </button>
+
+          <!-- Modal -->
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">
+                    Your Cart
+                  </h1>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Item</th>
+                        <th scope="col">Price</th>
+                      </tr>
+                    </thead>
+                    <tbody class="tableBodyOne"></tbody>
+                  </table>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">Subtotal:</th>
+                      </tr>
+                      <tr>
+                        <th scope="row">Tax:</th>
+                      </tr>
+                      <tr>
+                        <th scope="row">Shipping:</th>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <th scope="row" class="table-success">Total:</th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Clear Cart
+                  </button>
+                  <button type="button" class="btn btn-primary">
+                    Purchase For
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">

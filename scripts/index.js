@@ -17,8 +17,14 @@ const womensLink = document.querySelector('.womens');
 const navbar = document.querySelector('nav');
 const display = document.getElementById('display');
 
-let cart = []; //toDO : add cart functionality
+//*cart array that will contain items 
+let cart = []; /////toDO : add cart functionality
 
+//*variable targeting cart button
+const cartBtn = document.querySelector('.cart');
+
+//*variable targeting first table body in the cart modal
+const tBodyOne = document.querySelector('.tableBodyOne');
 
 //?Functions
 const removeElements = element => {
@@ -41,7 +47,7 @@ function displayCards(api) {
     console.log(api);
 
     /////toDo: loop through the api data with a method
-    //toDo : create accordion
+    /////toDo : create accordion
     /////toDo : display proper category
     /////toDo : Clear previous category display
 
@@ -62,12 +68,12 @@ function displayCards(api) {
     let collapseTwo = document.createElement('div');
     let text = document.createElement('p');
     let price = document.createElement('p');
-    let anchor = document.createElement('a'); //change to button
+    let anchor = document.createElement('a'); ////change to button
     //*Set Attributes
     card.className = "card";
     card.style.width = "18rem";
 
-    img.src = obj.image; //need object from array
+    img.src = obj.image;
     img.alt = obj.title;
     img.className = "card-img-top";
 
@@ -116,7 +122,7 @@ function displayCards(api) {
             quantity: 1,
         }
 
-        submitToCart(item);
+        submitToCart(item); //invokes submitToCart function passing the newly created object as the parameter
     }
     //*Append
     body.appendChild(title);
@@ -145,9 +151,52 @@ function displayCards(api) {
     });
 }
 
-function submitToCart(item) {
-    cart.push(item);
+function submitToCart(item) {//pushes the item to the cart array -- if item already exists, it updates existing item's qty 
+    let itemFilter = cart.find(match => {
+        return match.id === item.id
+    });
+    
+    if(itemFilter) {
+        itemFilter.quantity += item.quantity;
+    } else {
+        cart.push(item);
+    }
     console.log(cart);
+}
+
+function displayCart() {
+    console.log("Cart inside of modal", cart);
+    removeElements(tBodyOne);
+    cart.map(item =>{
+        //*Create
+        let tableRow = document.createElement('tr');
+        let tableHeading = document.createElement('th');
+        let itemTitle = document.createElement('td');
+        let itemPrice = document.createElement('td');
+
+        //*Attributes
+        tableHeading.textContent = item.quantity;
+        tableHeading.setAttribute("scope", "row");
+        itemTitle.textContent = `${item.title} at $${item.cost} ea`;
+        let itemFinder = cart.find(match => {
+            return match.id === item.id
+        });
+        
+        if(itemFinder) {
+            itemFinder.cost += item.cost;
+            itemPrice.textContent = `$${itemFinder.cost}`;
+        } else {
+            itemPrice.textContent = `$${item.cost}`;
+        }
+
+        //*Append
+        tableRow.appendChild(tableHeading);
+        tableRow.appendChild(itemTitle);
+        tableRow.appendChild(itemPrice);
+
+        tBodyOne.appendChild(tableRow);
+    })
+
 }
 
 //*onload method targeting window and calling upon fakestore function
@@ -170,4 +219,11 @@ mensLink.addEventListener('click', e => {
 })
 womensLink.addEventListener('click', e => {
     fakeStore(womensCat);
+})
+
+cartBtn.addEventListener('click', e => {
+    console.log('click');
+    if (cart.length > 0) {
+        displayCart();
+    }
 })
