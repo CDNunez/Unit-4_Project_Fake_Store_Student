@@ -23,7 +23,7 @@ let cart = []; /////toDO : add cart functionality
 //*variable targeting cart button
 const cartBtn = document.querySelector('.cart');
 
-//*variable targeting first table body in the cart modal
+//*variables targeting the table in the cart modal
 const tBodyOne = document.querySelector('.tableBodyOne');
 
 //?Functions
@@ -173,30 +173,36 @@ function displayCart() {
         let tableHeading = document.createElement('th');
         let itemTitle = document.createElement('td');
         let itemPrice = document.createElement('td');
-
+        
         //*Attributes
         tableHeading.textContent = item.quantity;
         tableHeading.setAttribute("scope", "row");
         itemTitle.textContent = `${item.title} at $${item.cost} ea`;
+        
         let itemFinder = cart.find(match => {
             return match.id === item.id
         });
         
-        if(itemFinder) {
-            itemFinder.cost += item.cost;
-            itemPrice.textContent = `$${itemFinder.cost}`;
+        if(itemFinder.quantity > 1) {
+            item.cost = Number (item.cost);
+            item.cost += item.cost;
+            let price = item.cost;
+            roundNumber = price.toFixed(2);
+            itemPrice.textContent = `$${roundNumber}`;
+            
         } else {
             itemPrice.textContent = `$${item.cost}`;
         }
-
+        
+        
         //*Append
         tableRow.appendChild(tableHeading);
         tableRow.appendChild(itemTitle);
         tableRow.appendChild(itemPrice);
-
+        
         tBodyOne.appendChild(tableRow);
     })
-
+    
 }
 
 //*onload method targeting window and calling upon fakestore function
@@ -223,7 +229,5 @@ womensLink.addEventListener('click', e => {
 
 cartBtn.addEventListener('click', e => {
     console.log('click');
-    if (cart.length > 0) {
         displayCart();
-    }
 })
