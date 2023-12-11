@@ -23,6 +23,10 @@ let cart = [];
 //*variable targeting cart button
 const cartBtn = document.querySelector('.cart');
 
+//*vars targeting modal buttons
+const clear = document.querySelector('.clearCart');
+const purchase = document.querySelector('.purchase');
+
 //*variables targeting the table in the cart modal
 const tBodyOne = document.querySelector('.tableBodyOne');
 const subTotal = document.querySelector('.subTotal');
@@ -34,6 +38,12 @@ const total = document.querySelector('.total');
 const removeElements = element => {
     while(element.firstChild) {
         element.removeChild(element.firstChild);
+    }
+}
+
+const toClear = array => {
+    while(array.length >= 1) {
+        array.pop()
     }
 }
 
@@ -270,6 +280,8 @@ function displayCart() {
         let calcTotal = sum + ship + taxSub;
 
          totalData.textContent = `$${calcTotal.toFixed(2)}`;
+
+         purchase.textContent = `Purchase For $${calcTotal.toFixed(2)}`;
         
         //*Append
         subTotal.appendChild(subHeading);
@@ -311,4 +323,13 @@ womensLink.addEventListener('click', e => {
 cartBtn.addEventListener('click', e => {
     console.log('click');
         displayCart();
+})
+
+purchase.addEventListener('click', e => {
+    window.alert("Thank you for your Purchase!");
+    toClear(cart);
+})
+
+clear.addEventListener('click', e => {
+    toClear(cart);
 })
