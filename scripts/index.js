@@ -18,13 +18,17 @@ const navbar = document.querySelector('nav');
 const display = document.getElementById('display');
 
 //*cart array that will contain items 
-let cart = []; /////toDO : add cart functionality
+let cart = [];
 
 //*variable targeting cart button
 const cartBtn = document.querySelector('.cart');
 
 //*variables targeting the table in the cart modal
 const tBodyOne = document.querySelector('.tableBodyOne');
+const subTotal = document.querySelector('.subTotal');
+const tax = document.querySelector('.tax');
+const shipping = document.querySelector('.shipping');
+const total = document.querySelector('.total');
 
 //?Functions
 const removeElements = element => {
@@ -45,11 +49,6 @@ const fakeStore = async(endpoint) => {
 
 function displayCards(api) {
     console.log(api);
-
-    /////toDo: loop through the api data with a method
-    /////toDo : create accordion
-    /////toDo : display proper category
-    /////toDo : Clear previous category display
 
     api.map(obj => {
     //*Create Elements
@@ -167,14 +166,20 @@ function submitToCart(item) {//pushes the item to the cart array -- if item alre
 function displayCart() {
     console.log("Cart inside of modal", cart);
     removeElements(tBodyOne);
+    removeElements(subTotal);
+    removeElements(tax);
+    removeElements(shipping);
+    removeElements(total);
     cart.map(item =>{
         //*Create
+        //item to display
         let tableRow = document.createElement('tr');
         let tableHeading = document.createElement('th');
         let itemTitle = document.createElement('td');
         let itemPrice = document.createElement('td');
         
         //*Attributes
+        //items to display - calculating the price of item
         tableHeading.textContent = item.quantity;
         tableHeading.setAttribute("scope", "row");
         itemTitle.textContent = `${item.title} at $${item.cost} ea`;
@@ -183,25 +188,101 @@ function displayCart() {
             return match.id === item.id
         });
         
-        if(itemFinder.quantity > 1) {
-            item.cost = Number (item.cost);
-            item.cost += item.cost;
-            let price = item.cost;
-            roundNumber = price.toFixed(2);
-            itemPrice.textContent = `$${roundNumber}`;
-            
+        if(itemFinder.quantity > 1) { //updates the price of the item in cart if there is multiples of the same item
+            item.cost = Number (item.cost);//transform item.cost to number instead of string
+            item.cost = item.cost * item.quantity;//multiplies item.cost by item.quantity
+            let roundNumber = item.cost;//variable to round number
+            let price = roundNumber.toFixed(2);//price rounded to two digits (my computer was not allowing me to write item.cost.toFixed(2))
+            itemPrice.textContent = `$${price}`;//displays price
+            item.cost = item.cost / item.quantity;//resets item.cost so it doesn't endlessly add the price each time the cart is displayed and if conditional returns true
         } else {
             itemPrice.textContent = `$${item.cost}`;
         }
         
         
+        
         //*Append
+        //items to display
         tableRow.appendChild(tableHeading);
         tableRow.appendChild(itemTitle);
         tableRow.appendChild(itemPrice);
         
         tBodyOne.appendChild(tableRow);
     })
+        //*Create
+        //subtotal
+        let subHeading = document.createElement('th');
+        let subData = document.createElement('td');
+        
+        //tax
+        let taxHeading = document.createElement('th');
+        let taxData = document.createElement('td');
+        
+        //shipping
+        let shippingHeading = document.createElement('th');
+        let shippingData = document.createElement('td');
+
+        //total
+        let totalHeading = document.createElement('th');
+        let totalData = document.createElement('td');
+
+        //*Attributes
+        //subtotal
+        subHeading.textContent = 'Subtotal:';
+        subHeading.setAttribute = ("scope", "row");
+        subData.setAttribute = ("scope", "row");
+        let sum = 0;
+         /////toDo: try a forEach loop
+        cart.forEach(item =>{
+            num = Number (item.cost);
+            qty = Number (item.quantity);
+            sub = num * qty;
+            sum += sub;
+        })
+        console.log('sum', sum.toFixed(2));
+        subData.innerText =`$${sum.toFixed(2)}`;
+        //tax
+        taxHeading.textContent = 'Tax:';
+        taxHeading.setAttribute = ('scope', 'row');
+        taxData.setAttribute = ("scope", "row");
+
+        let calcTax = .07;
+        let taxSub = sum * calcTax;
+
+        taxData.textContent = `$${taxSub.toFixed(2)}`;
+ 
+         //shipping
+         shippingHeading.textContent = 'Shipping';
+         shippingHeading.setAttribute = ('scope', 'row');
+         shippingData.setAttribute = ('scope', 'row');
+         
+         let calcShip = .10;
+         let ship = sum * calcShip;
+         
+         shippingData.textContent = `$${ship.toFixed(2)}`;
+         //total
+         totalHeading.textContent = 'Total:';
+         totalHeading.setAttribute = ('scope', 'row');
+         totalHeading.className = 'table-success';
+         totalData.setAttribute = ('scope', 'row');
+         totalData.className = 'table-success';
+         
+        let calcTotal = sum + ship + taxSub;
+
+         totalData.textContent = `$${calcTotal.toFixed(2)}`;
+        
+        //*Append
+        subTotal.appendChild(subHeading);
+        subTotal.appendChild(subData);
+
+        tax.appendChild(taxHeading);
+        tax.appendChild(taxData);
+
+        shipping.appendChild(shippingHeading);
+        shipping.appendChild(shippingData);
+
+        total.appendChild(totalHeading);
+        total.appendChild(totalData);
     
 }
 
