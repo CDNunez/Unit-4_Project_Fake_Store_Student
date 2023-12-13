@@ -7,9 +7,13 @@ body {
 }
 
 nav {
-    width: 100vw;
+    width: 100%;
     position: fixed;
     top: 0;
+}
+
+.modal-backdrop {
+    position: unset !important;
 }
 
 h6 {
